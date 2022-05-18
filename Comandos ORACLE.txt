@@ -1,0 +1,107 @@
+:::::EJEMPLOS SQL ORACLE:::::
+
+	-----Create table con PK-----
+	
+	CREATE TABLE purchase_orders (
+		po_nr NUMBER,
+		vendor_id NUMBER NOT NULL,
+		po_status NUMBER(1,0) NOT NULL,
+		created_at TIMESTAMP WITH TIME ZONE NOT NULL,
+		CONSTRAINT pk_purchase_orders PRIMARY KEY(po_nr)
+	);
+	
+	-----Añadir PK a tabla-----
+	
+	ALTER TABLE table_name
+	ADD CONSTRAINT constraint_name 
+	PRIMARY KEY (column1, column2, ...);
+	
+	-----Quitar PK-----
+	
+	ALTER TABLE table_name
+	DROP CONSTRAINT primary_key_constraint_name;
+	
+	-----Deshabilitar/habilitar PK-----
+	
+	ALTER TABLE table_name
+	DISABLE CONSTRAINT primary_key_constraint_name;
+	
+	ALTER TABLE table_name
+	ENABLE CONSTRAINT primary_key_constraint_name;
+	
+	-----Create table con FK-----
+	
+	CREATE TABLE table_name
+	(
+	  column1 datatype null/not null,
+	  column2 datatype null/not null,
+	  ...
+
+	  CONSTRAINT fk_column
+		FOREIGN KEY (column1, column2, ... column_n)
+		REFERENCES parent_table (column1, column2, ... column_n)
+	);
+	
+	_____OTRO TIPO DE CREACION_____
+	
+	CREATE TABLE child_table (
+		...
+		CONSTRAINT fk_name
+		FOREIGN KEY(col1, col2,...) REFERENCES parent_table(col1,col2) 
+		ON DELETE [ CASCADE | SET NULL ]
+	);
+	
+	_____EJ_____:
+	
+	CREATE TABLE supplier
+	( supplier_id numeric(10) not null,
+	  supplier_name varchar2(50) not null,
+	  contact_name varchar2(50),
+	  CONSTRAINT supplier_pk PRIMARY KEY (supplier_id)
+	);
+
+	CREATE TABLE products
+	( product_id numeric(10) not null,
+	  supplier_id numeric(10) not null,
+	  CONSTRAINT fk_supplier
+		FOREIGN KEY (supplier_id)
+		REFERENCES supplier(supplier_id)
+	);
+	
+	-----Añadir FK a tabla-----
+	
+	ALTER TABLE child_table 
+	ADD CONSTRAINT fk_name
+	FOREIGN KEY (col1,col2) REFERENCES parent_table(col1,col2);
+	
+	-----Quitar FK a tabla-----
+	
+	ALTER TABLE child_table
+	DROP CONSTRAINT fk_name;
+	
+	-----Deshabilitar/habilitar FK de tabla-----
+	
+	ALTER TABLE child_table
+	DISABLE CONSTRAINT fk_name;
+	
+	ALTER TABLE child_table
+	ENABLE CONSTRAINT fk_name;
+	
+	-----Insert in table buscando datos de otra tabla-----
+	
+	//Despues del select vienen los valores, si no es un valor que viene de otra tabla se pone en "duro", es posible hacer joins
+	
+	WITH inputvalues(ingredient, amount) AS (
+	values
+		('paprika', '1')
+		, ('rice', '200 gr')
+		, ('onion', 'half')
+		, ('chicken', '150 gr')
+		, ('garlic', '2 cloves')
+	)
+	
+	INSERT INTO public.recipe_ingredients (recipe_id, ingredient_id, amount)
+	SELECT 1, ing.id, d.amount
+	FROM inputvalues AS d
+	INNER JOIN public.ingredients AS ing
+		ON d.ingredient = ing.ingredient
