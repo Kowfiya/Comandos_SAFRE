@@ -1,0 +1,25 @@
+Para probar functions -
+ - Crear excel (?
+ - Cargar excel en Base de Conocimiento -> Carga de Catalogo (elegir sist_rem)
+ - Presionar publicar catalogo
+	Validar cargar:
+		- Entrar a OpenShift de Safre-QA
+		- Ver Log del pod de safre-app
+		- Ver amboos Log del pod de safre-bc
+		- Entrar al jenkins de RHTest
+		- Revisar log de ambas pipelines
+			- En el kieserver validar que se cree bien el documento
+			- En el nexus validar un Succefully
+		- Ir al git, entrar al repo del sist_rem
+		- Entrar al src y buscar el archivo (generalmente es el ultimo actualizado)
+ - Ir a Configuracion Plantilla Carga - Administrador
+ - General y seleccionar el sist_rem
+ - Buscar
+ - Agregar las pruebas de dummy
+ - Agregar uno minimo del cuadro de abajo
+ - Guardar
+ - Cambiar la fecha por sql al dia de hoy
+	- Query:
+ - Ir a Configuracion Plantilla - Analista
+ 
+ 
